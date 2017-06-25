@@ -37,6 +37,9 @@ class Resource:
     __name = str() # filename
     __modtime = int() # modification time
 
+    def __init_(self, Type, Name):
+        self.___type = Type.upper()
+
     def procName(self, func):
         func(self.path)
 
@@ -49,6 +52,36 @@ class Resource:
 
     def __str__(self):
         return self.path
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def setName(self, name):
+        self.__name = name
+
+    @property
+    def Type(self):
+        return self.__type
+
+    @Type.setter
+    def setType(self, Type):
+        self.__type = Type.upper()
+
+    @property
+    def filetype(self):
+        return self.__filetype
+
+    @filetype.setter
+    def setFiletype(self, filetype):
+        if "FILE" in self.Type.split(";"):
+            self.__filetype = filetype
+
+    @property
+    def path(self):
+        if "FILE" in self.Type.split(";"):
+            return os.path.abspath(self.name + "." + )
 
 class Resources(list):
     def updated(self):# filter all resources by their modification time
