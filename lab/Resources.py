@@ -33,7 +33,10 @@ class ResourceList(Resource):
     def __init__(self, name, resources):
         Resource.__init__(name)
         self.resources = resources
-
+"""
+    def sort(self, value):
+        return sorted(self.root.resources, key = lambda x: getattr(x, value))
+"""
     @property
     def resources(self):
         return self.__resources
@@ -69,3 +72,10 @@ class Folder(FileList):
 
     def add(self, resource):
         if isinstance(resource, File): self.resources.append(resource)
+
+
+"""
+add more resource types such as artifacts, objects, libraries
+and seperate them by language e.g a c submodule for c based
+resources
+"""
