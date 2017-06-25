@@ -1,6 +1,11 @@
-import lab
+from lab import *
 
-test = lab.lab(
-    record_name = "test_rec",
-    config_name = "test_conf",
-)
+with lab("test_project") as proj:
+    with proj.tasks.test as test:
+        @test.check
+        def check(self):
+            return True
+
+        @test.execute
+        def execute(self):
+            compile(self.proj.select.type("source").all().fetch())
