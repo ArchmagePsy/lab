@@ -2,18 +2,18 @@ import os
 from lab import Resources
 from lab import Utilities
 
-Global = ResourceList("global", [])
-GlobalSelector = Selector(Global)
+Global = Resources.ResourceList("global", [])
+GlobalSelector = Utilities.Selector(Global)
 
 class lab(ResourceList):
 
     @property
     def select(self):
-        return Selector(self)
+        return Utilities.Selector(self)
 
     def __init__(self, name, setup):
         global Global
-        ResourceList.__init__(self, name)
+        Resources.ResourceList.__init__(self, name)
         Global.add(self)
         setup(self)
 
