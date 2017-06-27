@@ -51,7 +51,7 @@ class ResourceList(Resource):
     def remove(self, item):
         if item in self.resources: self.resources.pop(self.resources.index(item))
 
-class FileList(ResourceList)
+class FileList(ResourceList):
     def __init__(self, name, files):
         ResourceList.__init__(name, files)
 
