@@ -1,11 +1,5 @@
 from lab import *
 
-with lab("test_project") as proj:
-    with proj.tasks.test as test:
-        @test.check
-        def check(self):
-            return True
-
-        @test.execute
-        def execute(self):
-            compile(self.proj.select.type("source").all().fetch())
+@lab("test_project", [Resource("dummy")])
+def setup(proj):
+    print self.proj.select.dummy.fetch()[0].name

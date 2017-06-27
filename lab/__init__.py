@@ -1,18 +1,21 @@
 import os
 from lab import Resources
 from lab import Utilities
-from lab import Selector
 
 Global = ResourceList("global", [])
+GlobalSelector = Selector(Global)
 
 class lab(ResourceList):
 
     @property
     def select(self):
-        return selector(self)
+        return Selector(self)
 
-    def __init__(self, name):
+    def __init__(self, name, setup):
+        global Global
         ResourceList.__init__(self, name)
+        Global.add(self)
+        setup(self)
 
 """
 use binary search in getattribute to

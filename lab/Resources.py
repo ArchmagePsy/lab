@@ -33,10 +33,10 @@ class ResourceList(Resource):
     def __init__(self, name, resources):
         Resource.__init__(name)
         self.resources = resources
-"""
-    def sort(self, value):
-        return sorted(self.root.resources, key = lambda x: getattr(x, value))
-"""
+
+    def sort(self, by = None):
+        return sorted(self.resources, key = lambda item: getattr(item, by) if hasattr(item, by) else "") if by != None else sorted(self.resources)
+
     @property
     def resources(self):
         return self.__resources
