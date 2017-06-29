@@ -41,7 +41,8 @@ class Selector:
 
     def __init__(self, base):
         if isinstance(base, Resources.Resource):
-            self.result, self.__origin = base
+            self.result = base
+            self.__origin = base
         else:
             raise TypeError("base must be a subclass or instance of Resources.Resource")
 

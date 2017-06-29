@@ -4,7 +4,7 @@ from lab import Utilities
 Global = Resources.ResourceList("global", [])
 GlobalSelector = Utilities.Selector(Global)
 
-class lab(ResourceList):
+class lab(Resources.ResourceList):
 
     @property
     def select(self):
@@ -12,7 +12,7 @@ class lab(ResourceList):
 
     def __init__(self, name, setup):
         global Global
-        Resources.ResourceList.__init__(self, name)
+        Resources.ResourceList.__init__(self, name, [])
         Global.add(self)
         setup(self)
 
