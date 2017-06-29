@@ -1,9 +1,9 @@
 from lab import Resources
 import os
 
-def search_until(array, target):
+def search_until(array, target, key = lambda item: item):
     results = []
-    for item in array[index + 1:]:
+    for item in array:
         if key(item) == target:
             results.append(item)
         else:
@@ -13,16 +13,18 @@ def search_until(array, target):
 def binary_search(array, target, key = lambda item: item):
     results = []
     tmpArray = array
-    while True:
-        index = len(tmpArray // 2)
-        current = key(tmpArray[index])
-        if current == target:
-            results += search_until(reversed(tmpArray[:index]))
+    searching = True
+    while searching:
+        index = len(tmpArray) // 2
+        current = tmpArray[index]
+        if key(current) == target:
+            results += search_until(reversed(tmpArray[:index]), target)
             results.append(current)
-            results += search_until(tmpArray[index + 1:])
-        elif current > target:
+            results += search_until(tmpArray[index + 1:], target)
+            searching = False
+        elif key(current) > target:
             tmpArray = tmpArray[:index]
-        elif current < target:
+        elif key(current) < target:
             tmpArray = tmpArray[index + 1:]
     return results
 
@@ -36,14 +38,17 @@ def getEnv(self, name):
 def clean(directory):
     pass
 
+def sortBy(array, by):
+    return sorted(array, key = lambda item: getattr(item, by) if hasattr(item, by) else "") if by != None else sorted(array)
+
 class Selector:
     __origin = None
     __result = None
 
     def __init__(self, base):
-        if isinstance(base, Resources.Resource):
-            self.result = base
-            self.__origin = base
+        if isinstance(base, Resources.ResourceList):
+            self.result = base.resources
+            self.__origin = base.resources
         else:
             raise TypeError("base must be a subclass or instance of Resources.Resource")
 
@@ -63,10 +68,8 @@ class Selector:
         return self.__origin
 
     def __getattr__(self, name):
-        print name
-        if isinstance(self.result, Resources.ResourceList):
-            self.result = self.result.sort(by = "name")
-            self.result = binary_search(self.result.resources, name, key = lambda item: item.name)
+        self.result = sortBy(self.result, "name")
+        self.result = binary_search(self.result, name, key = lambda item: item.name)
         return self
 
     def fetch(self):

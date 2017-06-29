@@ -34,9 +34,6 @@ class ResourceList(Resource):
         Resource.__init__(self, name)
         self.resources = resources
 
-    def sort(self, by = None):
-        return sorted(self.resources, key = lambda item: getattr(item, by) if hasattr(item, by) else "") if by != None else sorted(self.resources)
-
     @property
     def resources(self):
         return self.__resources
