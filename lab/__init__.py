@@ -10,9 +10,9 @@ class lab(Resources.ResourceList):
     def select(self):
         return Utilities.Selector(self)
 
-    def __init__(self, name, setup):
+    def __init__(self, name, base, etup):
         global Global
-        Resources.ResourceList.__init__(self, name, [])
+        Resources.ResourceList.__init__(self, name, base)
         Global.add(self)
         setup(self)
 
