@@ -22,6 +22,8 @@ def binary_search(array, target, key = lambda item: item):
             results.append(current)
             results += search_until(tmpArray[index + 1:], target)
             searching = False
+        elif len(tmpArray) == 1:
+            searching = False
         elif key(current) > target:
             tmpArray = tmpArray[:index]
         elif key(current) < target:
