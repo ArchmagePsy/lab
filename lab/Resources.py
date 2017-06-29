@@ -1,3 +1,5 @@
+import os
+
 class Resource:
     __name = str()
 
