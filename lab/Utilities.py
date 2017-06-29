@@ -1,3 +1,5 @@
+from lab import Resources
+
 def search_until(array, target):
     results = []
     for item in array[index + 1:]:
