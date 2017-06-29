@@ -11,10 +11,12 @@ class lab(Resources.ResourceList):
         return Utilities.Selector(self)
 
     @staticmethod
-    def setup(name, base, func):
-        ret = lab(name, base)
-        func(ret)
-        return ret
+    def setup(name, base):
+        def wrapper(func):
+            ret = lab(name, base)
+            func(ret)
+            return ret
+        return wrapper
 
     def __init__(self, name, base):
         global Global

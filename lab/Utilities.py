@@ -1,4 +1,5 @@
 from lab import Resources
+import os
 
 def search_until(array, target):
     results = []
@@ -52,17 +53,20 @@ class Selector:
 
     @result.setter
     def result(self, value):
-        if isinstance(value, Resources.Resource): self.__result = value
-        elif type(value) == list: self.__result.Resources.Resources = value
+        if isinstance(value, Resources.Resource):
+            self.__result = value
+        elif type(value) == list:
+            self.__result.resources = value
 
     @property
     def origin(self):
         return self.__origin
 
-    def __getattribute__(self, name):
+    def __getattr__(self, name):
+        print name
         if isinstance(self.result, Resources.ResourceList):
             self.result = self.result.sort(by = "name")
-            self.result = binary_search(self.result.Resources.Resources, name, key = lambda item: item.name)
+            self.result = binary_search(self.result.resources, name, key = lambda item: item.name)
         return self
 
     def fetch(self):
