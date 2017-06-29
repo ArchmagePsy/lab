@@ -38,10 +38,10 @@ class Selector:
     __result = None
 
     def __init__(self, base):
-        if isinstance(base, Resource):
+        if isinstance(base, Resources.Resource):
             self.result, self.__origin = base
         else:
-            raise TypeError("base must be a subclass or instance of Resource")
+            raise TypeError("base must be a subclass or instance of Resources.Resource")
 
     @property
     def result(self):
@@ -49,17 +49,17 @@ class Selector:
 
     @result.setter
     def result(self, value):
-        if isinstance(value, Resource): self.__result = value
-        elif type(value) == list: self.__result.resources = value
+        if isinstance(value, Resources.Resource): self.__result = value
+        elif type(value) == list: self.__result.Resources.Resources = value
 
     @property
     def origin(self):
         return self.__origin
 
     def __getattribute__(self, name):
-        if isinstance(self.result, ResourceList):
+        if isinstance(self.result, Resources.ResourceList):
             self.result = self.result.sort(by = "name")
-            self.result = binary_search(self.result.resources, name, key = lambda item: item.name)
+            self.result = binary_search(self.result.Resources.Resources, name, key = lambda item: item.name)
         return self
 
     def fetch(self):
