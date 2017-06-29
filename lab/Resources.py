@@ -31,7 +31,7 @@ class ResourceList(Resource):
     __resources = list()
 
     def __init__(self, name, resources):
-        Resource.__init__(name)
+        Resource.__init__(self, name)
         self.resources = resources
 
     def sort(self, by = None):
@@ -53,7 +53,7 @@ class ResourceList(Resource):
 
 class FileList(ResourceList):
     def __init__(self, name, files):
-        ResourceList.__init__(name, files)
+        ResourceList.__init__(self, name, files)
 
 class Folder(FileList):
     __path = str()
