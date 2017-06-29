@@ -10,11 +10,16 @@ class lab(Resources.ResourceList):
     def select(self):
         return Utilities.Selector(self)
 
-    def __init__(self, name, base, setup):
+    @staticmethod
+    def setup(name, base, func):
+        ret = lab(name, base)
+        func(ret)
+        return ret
+
+    def __init__(self, name, base):
         global Global
         Resources.ResourceList.__init__(self, name, base)
         Global.add(self)
-        setup(self)
 
 """
 use binary search in getattribute to
