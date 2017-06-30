@@ -45,14 +45,14 @@ def sortBy(array, by):
 
 class Selector:
     __origin = None
-    __result = None
+    __result = Resources.ResourceList("results", [])
 
     def __init__(self, base):
         if isinstance(base, Resources.ResourceList):
-            self.result = base.resources
+            self.result.resources = base.resources
             self.__origin = base.resources
         else:
-            raise TypeError("base must be a subclass or instance of Resources.Resource")
+            raise TypeError("base must be a subclass or instance of Resources.ResourceList")
 
     @property
     def result(self):
@@ -70,8 +70,8 @@ class Selector:
         return self.__origin
 
     def __getattr__(self, name):
-        self.result = sortBy(self.result, "name")
-        self.result = binary_search(self.result, name, key = lambda item: item.name)
+        self.result.resources = sortBy(self.result.resources, "name")
+        self.result.resources = binary_search(self.result.resources, name, key = lambda item: item.name)
         return self
 
     def fetch(self):
