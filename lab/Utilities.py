@@ -1,5 +1,5 @@
-from lab import Resources
 import os
+from lab import Resources
 
 def search_until(array, target, key = lambda item: item):
     results = []
