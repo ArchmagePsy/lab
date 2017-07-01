@@ -22,8 +22,3 @@ class lab(Resources.ResourceList):
         global Global
         Resources.ResourceList.__init__(self, name, base)
         Global.add(self)
-
-"""
-use binary search in getattribute to
-search for everything that matches by name
-"""
