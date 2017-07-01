@@ -78,3 +78,9 @@ class Selector:
         ret = self.result
         self.result = self.origin
         return ret
+
+    def find_resources(root = os.getcwd()):
+        if os.path.isdir(root):
+            return Resources.Folder(os.path.basename(root), [find_resources(root = i) for i in os.listdir(root)], root)
+        else:
+            return Resources.File(os.path.basename(root), root)
