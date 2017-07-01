@@ -43,6 +43,12 @@ def clean(directory):
 def sortBy(array, by):
     return sorted(array, key = lambda item: getattr(item, by) if hasattr(item, by) else "") if by != None else sorted(array)
 
+def findResources(root = os.getcwd()):
+    if os.path.isdir(root):
+        return Resources.Folder(os.path.basename(root), [findResources(root = os.path.join(root, i)) for i in os.listdir(root)], root)
+    elif os.path.isfile(root):
+        return Resources.File(os.path.basename(root), root)
+
 class Selector:
     __origin = None
     __result = Resources.ResourceList("results", [])
@@ -78,9 +84,3 @@ class Selector:
         ret = self.result
         self.result = self.origin
         return ret
-
-def findResources(root = os.getcwd()):
-    if os.path.isdir(root):
-        return Resources.Folder(os.path.basename(root), [findResources(root = os.path.join(root, i)) for i in os.listdir(root)], root)
-    elif os.path.isfile(root):
-        return Resources.File(os.path.basename(root), root)

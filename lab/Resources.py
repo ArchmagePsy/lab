@@ -1,6 +1,6 @@
 import os
 
-class Resource:
+class Resource(object):
     __name = str()
 
     def __init__(self, name):
@@ -72,6 +72,14 @@ class Folder(FileList):
     def add(self, resource):
         if isinstance(resource, File): self.resources.append(resource)
 
+def pretty(base, indent = 4, level = 0):
+    if isinstance(base, ResourceList):
+        ret = (" " * (indent * level)) + base.name + ": " + base.__class__.__name__ + "\n"
+        for r in base.resources:
+            ret += pretty(r, level = level + 1)
+        return ret
+    elif isinstance(base, Resource):
+        return (" " * (indent * level)) + base.name + ": " + base.__class__.__name__ + "\n"
 
 """
 add more resource types such as artifacts, objects, libraries
