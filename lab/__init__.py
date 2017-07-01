@@ -2,7 +2,7 @@ from lab import Resources
 from lab import Utilities
 
 GlobalResources = Resources.ResourceList("global", [])
-Global = Utilities.Selector(Global)
+Global = Utilities.Selector(GlobalResources)
 
 class lab(Resources.ResourceList):
 

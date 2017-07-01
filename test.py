@@ -1,7 +1,7 @@
 from lab import *
 import unittest
 
-class finderTest(unittest.case):
+class finderTest(unittest.TestCase):
     def test_resource_finder(self):
         resourceTree = Utilities.findResources()
         self.assertEqual(resourceTree.resources[1].name, "lab", 'second item in working directory does not have name property "lab"')
