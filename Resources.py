@@ -27,7 +27,7 @@ class File(Resource):
 
     @path.setter
     def path(self, value):
-        self.__path = os.path.abspath(value)
+        self.__path = os.path.abspath(value) if not os.path.isabs(value) else value
 
 class ResourceList(Resource):
     __resources = list()
