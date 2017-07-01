@@ -1,8 +1,8 @@
 from lab import Resources
 from lab import Utilities
 
-Global = Resources.ResourceList("global", [])
-GlobalSelector = Utilities.Selector(Global)
+GlobalResources = Resources.ResourceList("global", [])
+Global = Utilities.Selector(Global)
 
 class lab(Resources.ResourceList):
 
