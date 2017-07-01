@@ -1,2 +1,2 @@
-lab/*.pyc
-lab/C/*.pyc
+*.pyc
+C/*.pyc
