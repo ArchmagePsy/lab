@@ -2,6 +2,7 @@ import os
 from lab import Resources
 
 def search_until(array, target, key = lambda item: item):
+    #print array
     results = []
     for item in array:
         if key(item) == target:
@@ -15,6 +16,7 @@ def binary_search(array, target, key = lambda item: item):
     tmpArray = array
     searching = True
     while searching:
+        #index = (len(tmpArray) - 1) // 2
         index = len(tmpArray) // 2
         current = tmpArray[index]
         if key(current) == target:

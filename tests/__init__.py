@@ -1,2 +1,2 @@
 import unittest
-suite  = unittest.defaultTestLoader.discover("./")
+suite  = unittest.defaultTestLoader.discover(".")
