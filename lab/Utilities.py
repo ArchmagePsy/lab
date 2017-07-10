@@ -31,22 +31,22 @@ def binary_search(array, target, key = lambda item: item):
             maximum = mean - 1
     return results
 
-def setEnv(self, name, value):
+def set_env(name, value):
     os.environ[name] = str(value)
 
-def getEnv(self, name):
+def get_env(name):
     return os.environ[name]
 
 
 def clean(directory):
     pass
 
-def sortBy(array, by = None):
+def sort_by(array, by = None):
     return sorted(array, key = lambda item: getattr(item, by) if hasattr(item, by) else None) if by != None else sorted(array)
 
-def findResources(root = os.getcwd()):
+def find_resources(root = os.getcwd()):
     if os.path.isdir(root):
-        return Resources.Folder(os.path.basename(root), [findResources(root = os.path.join(root, i)) for i in os.listdir(root)], root)
+        return Resources.Folder(os.path.basename(root), [find_resources(root = os.path.join(root, i)) for i in os.listdir(root)], root)
     elif os.path.isfile(root):
         return Resources.File(os.path.basename(root), root)
 
@@ -77,7 +77,7 @@ class Selector:
         return self.__origin
 
     def __getattr__(self, name):
-        self.result.resources = sortBy(self.result.resources, "name")
+        self.result.resources = sort_by(self.result.resources, "name")
         self.result.resources = binary_search(self.result.resources, name, key = lambda item: item.name)
         return self
 
