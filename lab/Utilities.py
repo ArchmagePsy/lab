@@ -2,7 +2,6 @@ import os
 from lab import Resources
 
 def search_until(array, target, key = lambda item: item):
-    #print array
     results = []
     for item in array:
         if key(item) == target:
@@ -13,23 +12,23 @@ def search_until(array, target, key = lambda item: item):
 
 def binary_search(array, target, key = lambda item: item):
     results = []
-    tmpArray = array
     searching = True
-    while searching:
-        #index = (len(tmpArray) - 1) // 2
-        index = len(tmpArray) // 2
-        current = tmpArray[index]
-        if key(current) == target:
-            results += search_until(reversed(tmpArray[:index]), target)
-            results.append(current)
-            results += search_until(tmpArray[index + 1:], target)
-            searching = False
-        elif len(tmpArray) == 1:
-            searching = False
-        elif key(current) > target:
-            tmpArray = tmpArray[:index]
-        elif key(current) < target:
-            tmpArray = tmpArray[index + 1:]
+    minimum = 0
+    maximum = len(array) - 1
+    while True:
+        if minimum > maximum:
+            break
+        mean = (minimum + maximum) // 2
+        current = key(array[mean])
+        if current == target:
+            results += search_until(reversed(array[:mean]), target)
+            results.append(array[mean])
+            results += search_until(array[mean + 1:], target)
+            break
+        elif current < target:
+            minimum = mean + 1
+        elif current > target:
+            maximum = mean - 1
     return results
 
 def setEnv(self, name, value):
@@ -42,8 +41,8 @@ def getEnv(self, name):
 def clean(directory):
     pass
 
-def sortBy(array, by):
-    return sorted(array, key = lambda item: getattr(item, by) if hasattr(item, by) else "") if by != None else sorted(array)
+def sortBy(array, by = None):
+    return sorted(array, key = lambda item: getattr(item, by) if hasattr(item, by) else None) if by != None else sorted(array)
 
 def findResources(root = os.getcwd()):
     if os.path.isdir(root):
