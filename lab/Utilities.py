@@ -1,4 +1,4 @@
-import os
+import shutil
 from lab import Resources
 
 def search_until(array, target, key = lambda item: item):
@@ -32,23 +32,19 @@ def binary_search(array, target, key = lambda item: item):
     return results
 
 def set_env(name, value):
-    os.environ[name] = str(value)
+    shutil.os.environ[name] = str(value)
 
 def get_env(name):
-    return os.environ[name]
-
-
-def clean(directory):
-    pass
+    return shutil.os.environ[name]
 
 def sort_by(array, by = None):
     return sorted(array, key = lambda item: getattr(item, by) if hasattr(item, by) else None) if by != None else sorted(array)
 
-def find_resources(root = os.getcwd()):
-    if os.path.isdir(root):
-        return Resources.Folder(os.path.basename(root), [find_resources(root = os.path.join(root, i)) for i in os.listdir(root)], root)
-    elif os.path.isfile(root):
-        return Resources.File(os.path.basename(root), root)
+def find_resources(root = shutil.os.getcwd()):
+    if shutil.os.path.isdir(root):
+        return Resources.Folder(shutil.os.path.basename(root), [find_resources(root = shutil.os.path.join(root, i)) for i in shutil.os.listdir(root)], root)
+    elif shutil.os.path.isfile(root):
+        return Resources.File(shutil.os.path.basename(root), root)
 
 class Selector:
     __origin = None

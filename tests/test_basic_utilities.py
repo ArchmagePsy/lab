@@ -1,5 +1,7 @@
 from lab import Utilities
 from lab import Resources
+import tempfile
+import shutil
 import unittest
 
 class Dummy:
@@ -27,3 +29,12 @@ class UtilityTest(unittest.TestCase):
         self.assertEqual(Utilities.sort_by([9, 5, 9, 4, 5, 1, 9, 5, 6, 1, 0, 6, 1, 0, 6]), [0, 0, 1, 1, 1, 4, 5, 5, 5, 6, 6, 6, 9, 9, 9])
         tmp_array = [Dummy(1), Dummy(4), Dummy(3)]
         self.assertEqual(Utilities.sort_by(tmp_array, by = "foo" ), sorted(tmp_array, key = lambda item: item.foo))
+
+    def test_find_resources(self):
+        dir_path = tempfile.mkdtemp()
+        temporary_file = tempfile.NamedTemporaryFile(dir = dir_path)
+
+        self.assertEqual(Resources.pretty(Utilities.find_resources(root = dir_path)), "%s: Folder\n    %s: File\n" % (shutil.os.path.basename(dir_path), shutil.os.path.basename(temporary_file.name)))
+
+        temporary_file.close()
+        shutil.rmtree(dir_path)

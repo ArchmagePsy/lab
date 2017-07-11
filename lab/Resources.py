@@ -1,4 +1,4 @@
-import os
+import shutil
 
 class Resource(object):
     __name = str()
@@ -27,7 +27,7 @@ class File(Resource):
 
     @path.setter
     def path(self, value):
-        self.__path = os.path.abspath(value) if not os.path.isabs(value) else value
+        self.__path = shutil.os.path.abspath(value) if not shutil.os.path.isabs(value) else value
 
 class ResourceList(Resource):
     __resources = list()
@@ -67,7 +67,7 @@ class Folder(FileList):
 
     @path.setter
     def path(self, value):
-        self.__path = os.path.abspath(value)
+        self.__path = shutil.os.path.abspath(value)
 
     def add(self, resource):
         if isinstance(resource, File): self.resources.append(resource)
