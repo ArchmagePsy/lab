@@ -1,8 +1,5 @@
-from lab import Utilities
-from lab import Resources
-import tempfile
-import shutil
-import unittest
+from lab import Utilities, Resources
+import tempfile, shutil, unittest
 
 class Dummy:
     foo = int()
