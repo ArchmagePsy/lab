@@ -1,5 +1,5 @@
 import shutil
-from lab import Resources
+from Lab import Resources
 
 def search_until(array, target, key = lambda item: item):
     results = []
@@ -46,7 +46,12 @@ def find_resources(root = shutil.os.getcwd()):
     elif shutil.os.path.isfile(root):
         return Resources.File(shutil.os.path.basename(root), root)
 
-class Selector:
+def mutate_dict(func, dictionary):# yeah I stole this, thx gens and Ned Batchelder from SO
+    for key, value in dictionary.iteritems():
+        dictionary[key] = func(value)
+    return dictionary
+
+class Selector(object):
     __origin = None
     __result = Resources.ResourceList("results", [])
 

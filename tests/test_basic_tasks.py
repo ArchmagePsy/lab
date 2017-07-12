@@ -1,4 +1,4 @@
-from lab import Tasks
+from Lab import Tasks, Utilities, Resources
 import unittest
 
 class TaskTest(unittest.TestCase):
@@ -13,3 +13,6 @@ class TaskTest(unittest.TestCase):
         dummy_task = Tasks.Task()
         with self.assertRaises(Tasks.UndefinedTaskError) as SE:
             dummy_task(None)
+
+    def test_command_task(self):
+        pass # need to write a test that does nothing but don't know which command to do it with

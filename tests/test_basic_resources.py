@@ -1,4 +1,4 @@
-from lab import Resources
+from Lab import Resources
 import unittest
 
 class ResourceTest(unittest.TestCase):

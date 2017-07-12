@@ -1,4 +1,4 @@
-from lab import Utilities, Resources
+from Lab import Utilities, Resources
 import tempfile, shutil, unittest
 
 class Dummy:
@@ -35,3 +35,6 @@ class UtilityTest(unittest.TestCase):
 
         temporary_file.close()
         shutil.rmtree(dir_path)
+
+    def test_mutate_dict(self):
+        self.assertEqual(Utilities.mutate_dict(lambda item: item + 1, {"foo": 1, "bar": 1}), {"foo": 2, "bar": 2})
