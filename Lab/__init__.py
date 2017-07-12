@@ -4,12 +4,6 @@ from Lab import Resources, Utilities, Tasks
 Global_resources = Resources.ResourceList("root", [])
 Global = Utilities.Selector(Global_resources)
 
-class Globals(object):
-    class GlobalSingleton(object):
-        pass
-    def __init__(self):
-        pass # finish singleton for accessing the global variables and fix tests
-
 class lab(Resources.ResourceList):
 
     __tasks = dict()
@@ -22,7 +16,7 @@ class lab(Resources.ResourceList):
 
     def __call__(self, task_name, *args, **kwargs):
         if self.tasks.has_key(task_name):
-            self.tasks[task_name](self, *args, **kwargs)
+            return self.tasks[task_name](self, *args, **kwargs)
 
     @property
     def tasks(self):

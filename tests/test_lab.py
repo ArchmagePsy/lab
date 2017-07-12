@@ -1,5 +1,6 @@
 from Lab import lab
-import unittest, Lab
+from Lab import Global
+import unittest
 
 class LabTest(unittest.TestCase):
     def test_lab(self):
@@ -9,6 +10,4 @@ class LabTest(unittest.TestCase):
             def dummy_task(project):
                 return "I'm kinda dumb aren't I?"
 
-        print Lab.Global.root.test.fetch()[0]("dummy_task")
-
-        self.assertEqual(Lab.Global.test.fetch()[0]("dummy_task"), "I'm kinda dumb aren't I?")
+        self.assertEqual(Global.root.test.fetch()[0]("dummy_task"), "I'm kinda dumb aren't I?")
