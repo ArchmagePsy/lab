@@ -45,4 +45,4 @@ class Command(Task):
 
 class Clean(Command):
     def __init__(self):
-        Command.__init__(self, "rm -rvf {dir}")
+        Command.__init__(self, "rm -vf {directory}/*")
