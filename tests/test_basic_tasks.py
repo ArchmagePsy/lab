@@ -20,7 +20,7 @@ class TaskTest(unittest.TestCase):
     def test_clean_task(self):
         dir_path = tempfile.mkdtemp()
         files = []
-        for i in range(10):
+        for i in range(3):
             with open(shutil.os.path.join(dir_path, str(i)), "w+") as fp:
                 files.append(fp.name)
         clean = Tasks.Clean()

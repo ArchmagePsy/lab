@@ -13,10 +13,9 @@ class lab(Resources.ResourceList):
 
     def __getitem__(self, key):
         if isinstance(key, slice):
-            name, task_type = key.start, key.stop
-            print issubclass(task_type, Tasks.Task)
+            name, task_type, args = key.start, key.stop, key.step
             if not self.tasks.has_key(name) and issubclass(task_type, Tasks.Task):
-                task = task_type()
+                task = task_type() if args == None else task_type(*args)
                 self.tasks[name] = task
                 return task
 
