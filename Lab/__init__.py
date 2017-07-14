@@ -8,11 +8,17 @@ class lab(Resources.ResourceList):
 
     __tasks = dict()
 
-    def __getattr__(self, name):
-        if not self.tasks.has_key(name):
-            task = Tasks.Task()
-            self.tasks[name] = task
-            return task
+    def __getattr__(self, key):
+        return self.tasks[key]
+
+    def __getitem__(self, key):
+        if isinstance(key, slice):
+            name, task_type = key.start, key.stop
+            print issubclass(task_type, Tasks.Task)
+            if not self.tasks.has_key(name) and issubclass(task_type, Tasks.Task):
+                task = task_type()
+                self.tasks[name] = task
+                return task
 
     def __call__(self, task_name, *args, **kwargs):
         if self.tasks.has_key(task_name):
@@ -27,14 +33,14 @@ class lab(Resources.ResourceList):
         return Utilities.Selector(self)
 
     @staticmethod
-    def setup(name, base):
+    def setup(name, base = []):
         def wrapper(func):
-            ret = lab(name, base)
+            ret = lab(name, base = base)
             func(ret)
             return ret
         return wrapper
 
-    def __init__(self, name, base):
+    def __init__(self, name, base = []):
         global Global_resources
         Resources.ResourceList.__init__(self, name, base)
         Global_resources.add(self)

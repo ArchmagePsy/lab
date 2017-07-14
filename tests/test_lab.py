@@ -1,11 +1,11 @@
-from Lab import lab
-from Lab import Global
+from Lab import lab, Global, Tasks
 import unittest
 
 class LabTest(unittest.TestCase):
     def test_lab(self):
-        @lab.setup("test", [])
+        @lab.setup("test")
         def setup(project):
+            project["dummy_task" : Tasks.Task]
             @project.dummy_task.define
             def dummy_task(project):
                 return "I'm kinda dumb aren't I?"

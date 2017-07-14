@@ -15,6 +15,9 @@ class Task(object):
     def define(self, func):
         self.__task_func =  func
 
+    def setup(self, func):
+        func(self)
+
     def __call__(self, project, *args, **kwargs):
         if self.task_function != None:
             return self.task_function(project, *args, **kwargs)
