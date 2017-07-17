@@ -1,2 +1,4 @@
 **/*.pyc
 Lab.egg-info
+build
+dist
