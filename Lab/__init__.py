@@ -53,7 +53,7 @@ class lab(Resources.ResourceList):
                 if isinstance(self.tasks[r], Tasks.Routine):
                     print self(r)
         else:
-            self("main")
+            self("_main")
         self.__main__(args)
 
     def __init__(self, name, base = []):

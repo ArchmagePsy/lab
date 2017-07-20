@@ -64,5 +64,5 @@ class Scan(Routine):
             return Resources.pretty(project)
 
 def add_builtins(project):
-    project["main" : Routine]
+    project["_main" : Routine]
     project["scan" : Scan]
