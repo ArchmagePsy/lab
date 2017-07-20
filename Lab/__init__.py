@@ -58,7 +58,7 @@ class lab(Resources.ResourceList):
 
     def __init__(self, name, base = []):
         global Global_resources
-        if shutil.os.path.basename(shutil.os.getcwd):
+        if shutil.os.path.basename(shutil.os.getcwd()):
             base = Utilities.find_resources()
         Resources.ResourceList.__init__(self, name, base)
         Tasks.add_builtins(self)
