@@ -83,6 +83,6 @@ class Selector(object):
         return self
 
     def fetch(self):
-        ret = self.result
+        ret = self.result if len(self.result.resources) > 1 else self.result[0]
         self.result = self.origin
         return ret

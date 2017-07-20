@@ -1,4 +1,4 @@
-from Lab import Utilities
+from Lab import Utilities, Resources
 import subprocess
 
 class Task(object):
@@ -18,14 +18,14 @@ class Task(object):
     def setup(self, func):
         func(self)
 
-    def __call__(self, project, *args, **kwargs):
+    def __call__(self, project, **kwargs):
         if self.task_function != None:
-            return self.task_function(project, *args, **kwargs)
+            return self.task_function(project, **kwargs)
         else:
-            raise UndefinedTaskError
+            raise UndefinedTaskError("this task has not been defined")
 
 class UndefinedTaskError(BaseException):
-    message = "undefined task"
+    pass
 
 class Command(Task):
     __command = str()
@@ -42,10 +42,27 @@ class Command(Task):
     def __init__(self, command):
         self.command = command
         @self.define
-        def process_command(project, *args, **kwargs):
+        def process_command(project, **kwargs):
             Utilities.mutate_dict(str, kwargs)
             return subprocess.call(self.command.format(**kwargs), shell = True)
 
 class Clean(Command):
     def __init__(self):
         Command.__init__(self, "rm -vf {directory}/*")
+
+class Routine(Task):
+    def __call__(self, project):
+        if self.task_function != None:
+            return self.task_function(project)
+        else:
+            raise UndefinedTaskError("this task has not been defined")
+
+class Scan(Routine):
+    def __init__(self):
+        @self.define
+        def scan(project):
+            return Resources.pretty(project)
+
+def add_builtins(project):
+    project["main" : Routine]
+    project["scan" : Scan]
