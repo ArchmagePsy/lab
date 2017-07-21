@@ -10,13 +10,19 @@ class Task(object):
 
     @task_function.setter
     def task_function(self, func):
-        self.define(func)
+        if callable(func):
+            self.__task_func =  func
+        else:
+            raise TypeError("Task_function must be a callable object")
 
     def define(self, func):
-        self.__task_func =  func
+        self.task_function = func
 
     def setup(self, func):
-        func(self)
+        if callable(func):
+            func(self)
+        else:
+            raise TypeError("Func parameter for setup must be a callable object")
 
     def __call__(self, project, **kwargs):
         if self.task_function != None:
@@ -38,6 +44,8 @@ class Command(Task):
     def command(self, value):
         if type(value) == str:
             self.__command = value
+        else:
+            raise TypeError("Command property must be a string")
 
     def __init__(self, command):
         self.command = command

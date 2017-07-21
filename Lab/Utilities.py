@@ -68,10 +68,12 @@ class Selector(object):
 
     @result.setter
     def result(self, value):
-        if isinstance(value, Resources.Resource):
+        if isinstance(value, Resources.ResourceList):
             self.__result = value
         elif type(value) == list:
             self.__result.resources = value
+        else:
+            raise TypeError("Result must be given an instance of either list or ResourceList")
 
     @property
     def origin(self):
@@ -83,6 +85,6 @@ class Selector(object):
         return self
 
     def fetch(self):
-        ret = self.result if len(self.result.resources) > 1 else self.result[0]
+        ret = self.result if not len(self.result.resources) == 0 else self.result[0]
         self.result = self.origin
         return ret

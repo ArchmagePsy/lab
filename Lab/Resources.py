@@ -12,7 +12,7 @@ class Resource(object):
 
     @name.setter
     def name(self, value):
-        self.__name = value
+        self.__name = str(value)
 
 class File(Resource):
     __path = str()
@@ -27,7 +27,10 @@ class File(Resource):
 
     @path.setter
     def path(self, value):
-        self.__path = shutil.os.path.abspath(value) if not shutil.os.path.isabs(value) else value
+        if type(value) == str and shutil.os.path.isfile(value):
+            self.__path = shutil.os.path.abspath(value) if not shutil.os.path.isabs(value) else value
+        else:
+            raise TypeError("Path must be a string refrencing a file via standard path syntax")
 
 class ResourceList(Resource):
     __resources = list()
@@ -42,13 +45,22 @@ class ResourceList(Resource):
 
     @resources.setter
     def resources(self, value):
-        self.__resources = value
+        if type(value) == list and all(map(labda item: isinstance(item, Resource), value)):
+            self.__resources = value
+        else:
+            raise TypeError("Resources must be a list of Resource objects ")
 
     def add(self, resource):
-        if isinstance(resource, Resource): self.resources.append(resource)
+        if isinstance(resource, Resource):
+            self.resources.append(resource)
+        else:
+            raise TypeError("Cannot append a non-Resource object to resources")
 
     def remove(self, item):
-        if item in self.resources: self.resources.pop(self.resources.index(item))
+        if item in self.resources:
+            self.resources.pop(self.resources.index(item))
+        else:
+            raise AttributeError("item could not be found in resources")
 
     def __getitem__(self, index):
         return self.resources[index]
@@ -56,6 +68,12 @@ class ResourceList(Resource):
 class FileList(ResourceList):
     def __init__(self, name, files):
         ResourceList.__init__(self, name, files)
+
+    def add(self, resource):
+        if isinstance(resource, File):
+            self.resources.append(resource)
+        else:
+            raise TypeError("Cannot append a non-File object to resources")
 
 class Folder(FileList):
     __path = str()
@@ -70,10 +88,10 @@ class Folder(FileList):
 
     @path.setter
     def path(self, value):
-        self.__path = shutil.os.path.abspath(value)
-
-    def add(self, resource):
-        if isinstance(resource, File): self.resources.append(resource)
+        if type(value) == str and shutil.os.path.isdir(value):
+            self.__path = shutil.os.path.abspath(value) if not shutil.os.path.isabs(value) else value
+        else:
+            raise TypeError("Path must be a string refrencing a folder via standard path syntax")
 
 def pretty(base, indent = 4, level = 0):
     if isinstance(base, ResourceList):
