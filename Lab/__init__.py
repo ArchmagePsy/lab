@@ -1,15 +1,26 @@
-import shutil, argparse
-from Lab import Resources, Utilities, Tasks
-
-Global_resources = Resources.ResourceList("labs", [])
-Global = Utilities.Selector(Global_resources)
+import shutil, argparse, pickle, time, sys
+from Lab import Tasks, Utilities
 
 parser = argparse.ArgumentParser()
 parser.add_argument("routine", help = "routine(s) to be run", nargs = "*")
 
-class lab(Resources.ResourceList):
+class Settings(object):
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
+
+    def save(self, directory = shutil.os.getcwd()):
+        with open(shutil.os.path.join(directory, "settings"), "wb+") as settings:
+            pickle.dump(self, settings)
+
+    @staticmethod
+    def load(directory = shutil.os.getcwd()):
+        with open(shutil.os.path.join(directory, "settings"), "rb+") as settings:
+            return pickle.load(settings)
+
+class lab(object):
 
     __tasks = dict()
+    __settings = None
 
     def __getattr__(self, key):
         return self.tasks[key]
@@ -30,23 +41,20 @@ class lab(Resources.ResourceList):
     def tasks(self):
         return self.__tasks
 
-    @property
-    def select(self):
-        return Utilities.Selector(self)
-
-    @staticmethod
-    def setup(name, base = []):
+    @classmethod
+    def setup(cls):
         def wrapper(func):
-            ret = lab(name, base = base)
+            ret = cls()
             func(ret)
-            return ret
         return wrapper
 
     def __main__(self, args):
         pass
 
+    def __exit__(self):
+        pass
+
     def main(self):
-        global parser
         args = parser.parse_args()
         if args.routine:
             for r in args.routine:
@@ -55,11 +63,11 @@ class lab(Resources.ResourceList):
         else:
             self("_main")
         self.__main__(args)
+        self.__exit__()
 
-    def __init__(self, name, base = []):
-        global Global_resources
-        if shutil.os.path.basename(shutil.os.getcwd()):
-            base = Utilities.find_resources()
-        Resources.ResourceList.__init__(self, name, base)
+    def __init__(self):
         Tasks.add_builtins(self)
-        Global_resources.add(self)
+
+# implement project settings to store runtime etc.
+# pickle settings
+# figure out syntax for creating named labs

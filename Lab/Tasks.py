@@ -1,4 +1,4 @@
-from Lab import Utilities, Resources
+from Lab import Utilities
 import subprocess
 
 class Task(object):
@@ -65,12 +65,5 @@ class Routine(Task):
         else:
             raise UndefinedTaskError("this task has not been defined")
 
-class Scan(Routine):
-    def __init__(self):
-        @self.define
-        def scan(project):
-            return Resources.pretty(project)
-
 def add_builtins(project):
     project["_main" : Routine]
-    project["scan" : Scan]
