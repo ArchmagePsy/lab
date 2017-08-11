@@ -1,4 +1,4 @@
-from Lab import Tasks, Utilities, Resources
+from Lab import Tasks, Utilities
 import unittest, tempfile, shutil
 
 class TaskTest(unittest.TestCase):

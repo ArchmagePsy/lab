@@ -1,21 +1,8 @@
-import shutil, argparse, pickle, time, sys
+import shutil, argparse, sys
 from Lab import Tasks, Utilities
 
 parser = argparse.ArgumentParser()
 parser.add_argument("routine", help = "routine(s) to be run", nargs = "*")
-
-class Settings(object):
-    def __setattr__(self, name, value):
-        self.__dict__[name] = value
-
-    def save(self, directory = shutil.os.getcwd()):
-        with open(shutil.os.path.join(directory, "settings"), "wb+") as settings:
-            pickle.dump(self, settings)
-
-    @staticmethod
-    def load(directory = shutil.os.getcwd()):
-        with open(shutil.os.path.join(directory, "settings"), "rb+") as settings:
-            return pickle.load(settings)
 
 class lab(object):
 
@@ -41,10 +28,14 @@ class lab(object):
     def tasks(self):
         return self.__tasks
 
+    @property
+    def settings(self):
+        return self.__settings
+
     @classmethod
-    def setup(cls):
-        def wrapper(func):
-            ret = cls()
+    def setup(cls, *args, **kwargs):
+        def wrapper(func, *args, **kwargs):
+            ret = cls(*args, **kwargs)
             func(ret)
         return wrapper
 
@@ -53,6 +44,11 @@ class lab(object):
 
     def __exit__(self):
         pass
+
+    def exit(self):
+        self.__exit__()
+        self.settings.runtime = Utilities.time_stamp()
+        self.settings.save()
 
     def main(self):
         args = parser.parse_args()
@@ -63,9 +59,15 @@ class lab(object):
         else:
             self("_main")
         self.__main__(args)
-        self.__exit__()
+        self.exit()
 
-    def __init__(self):
+    def __init__(self, settings_dir = shutil.os.getcwd()):
+        settings_path = shutil.os.path.join(settings_dir, "settings")
+        if shutil.os.path.exists(settings_path) and shutil.os.path.isfile(settings_path):
+            self.__settings = Utilities.Settings.load(settings_dir)
+        else:
+            self.__settings = Utilities.Settings(directory = settings_dir)
+            self.settings.runtime = 0
         Tasks.add_builtins(self)
 
 # implement project settings to store runtime etc.

@@ -1,4 +1,4 @@
-import shutil
+import shutil, time, pickle
 
 def search_until(array, target, key = lambda item: item):
     results = []
@@ -43,3 +43,23 @@ def mutate_dict(func, dictionary):# yeah I stole this, thx gens and Ned Batcheld
     for key, value in dictionary.iteritems():
         dictionary[key] = func(value)
     return dictionary
+
+class Settings(object):
+
+    def __init__(self, directory = shutil.os.getcwd()):
+        self.directory = directory
+
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
+
+    def save(self):
+        with open(shutil.os.path.join(self.directory, "settings"), "wb+") as settings:
+            pickle.dump(self, settings)
+
+    @staticmethod
+    def load(directory):
+        with open(shutil.os.path.join(directory, "settings"), "rb+") as settings:
+            return pickle.load(settings)
+
+def time_stamp():
+    return int(time.time())

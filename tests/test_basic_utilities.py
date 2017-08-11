@@ -29,3 +29,17 @@ class UtilityTest(unittest.TestCase):
 
     def test_mutate_dict(self):
         self.assertEqual(Utilities.mutate_dict(lambda item: item + 1, {"foo": 1, "bar": 1}), {"foo": 2, "bar": 2})
+
+
+    def test_settings(self):
+        settings = Utilities.Settings()
+        settings.foo = "bar"
+        self.assertEqual(settings.foo, "bar")
+
+    def test_settings_load_and_save(self):
+        dir_path = tempfile.mkdtemp()
+        settings = Utilities.Settings(directory = dir_path)
+        settings.foo = "bar"
+        settings.save()
+        self.assertEqual(Utilities.Settings.load(dir_path).foo, "bar")
+        shutil.rmtree(dir_path)
