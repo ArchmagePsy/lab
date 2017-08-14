@@ -20,9 +20,8 @@ class lab(object):
                 self.tasks[name] = task
                 return task
 
-    def __call__(self, task_name, **kwargs):
-        if self.tasks.has_key(task_name):
-            return self.tasks[task_name](self, **kwargs)
+    def __call__(self, *args, **kwargs):
+        pass # use select function and runtime to create an incremental filter
 
     @property
     def tasks(self):

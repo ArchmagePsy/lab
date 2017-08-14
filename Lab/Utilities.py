@@ -63,3 +63,9 @@ class Settings(object):
 
 def time_stamp():
     return int(time.time())
+
+def select(query, root = shutil.os.getcwd(), key = lambda item: shutil.os.path.splitext(shutil.os.path.basename(item))[0]):
+    results = []
+    for dirpath, dirs, files in shutil.os.walk(root):
+        results.extend(map(lambda item: shutil.os.path.join(dirpath, item), binary_search(sorted(files + dirs), query, key = key)))
+    return results

@@ -2,7 +2,7 @@ from Lab import lab, Tasks
 import unittest, tempfile, shutil
 
 class LabTest(unittest.TestCase):
-    def test_lab(self):
+    def test_lab(self):# these need fixing
         dir_path = tempfile.mkdtemp()
         @lab.setup(settings_dir = dir_path)
         def setup(project):
@@ -12,7 +12,7 @@ class LabTest(unittest.TestCase):
                 return "I'm kinda dumb aren't I?"
         shutil.rmtree(dir_path)
 
-    def test_lab_2(self):
+    def test_lab_2(self):# these need fixing
         dir_path = tempfile.mkdtemp()
         @lab.setup(settings_dir = dir_path)
         def setup(project):

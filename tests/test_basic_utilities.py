@@ -43,3 +43,12 @@ class UtilityTest(unittest.TestCase):
         settings.save()
         self.assertEqual(Utilities.Settings.load(dir_path).foo, "bar")
         shutil.rmtree(dir_path)
+
+    def test_select(self):
+        dir_path = tempfile.mkdtemp()
+        file_names = ["1", "2", "3", "target"]
+        for i in file_names:
+            fp = open(shutil.os.path.join(dir_path, i), "wb+")
+            fp.close()
+        self.assertListEqual(Utilities.select("target", root = dir_path), [dir_path + "/target"])
+        shutil.rmtree(dir_path)
