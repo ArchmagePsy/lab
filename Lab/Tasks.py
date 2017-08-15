@@ -1,5 +1,5 @@
 from Lab import Utilities
-import subprocess
+import subprocess, argparse, string
 
 class Task(object):
     __task_func = None
@@ -35,6 +35,7 @@ class UndefinedTaskError(BaseException):
 
 class Command(Task):
     __command = str()
+    __arg_parser = argparse.ArgumentParser()
 
     @property
     def command(self):
@@ -47,11 +48,23 @@ class Command(Task):
         else:
             raise TypeError("Command property must be a string")
 
+    @property
+    def parser(self):
+        return self.__arg_parser
+
+    def setup_parser(self): # write test for this
+        for _, name, _, _ in string.Formatter().parse(self.command):
+            if name:
+                self.parser.add_argument("-" + name)
+
     def __init__(self, command):
         self.command = command
         @self.define
-        def process_command(project, **kwargs):
-            Utilities.mutate_dict(str, kwargs)
+        def process_command(project, args = None, **kwargs):
+            if not kwargs:
+                kwargs = self.parser.parse_known_args(args = args) # write test for new argparsing mechanism
+            else:
+                Utilities.mutate_dict(str, kwargs)
             return subprocess.call(self.command.format(**kwargs), shell = True)
 
 class Clean(Command):
@@ -67,3 +80,4 @@ class Routine(Task):
 
 def add_builtins(project):
     project["_main" : Routine]
+    project["clean" : Clean]

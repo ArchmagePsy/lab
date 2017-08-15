@@ -20,8 +20,9 @@ class lab(object):
                 self.tasks[name] = task
                 return task
 
-    def __call__(self, *args, **kwargs):
-        pass # use select function and runtime to create an incremental filter
+    def __call__(self, query, **kwargs):
+        kwargs.update(runtime = self.settings.runtime)
+        return Utilities.select(query, **kwargs)
 
     @property
     def tasks(self):
@@ -31,11 +32,9 @@ class lab(object):
     def settings(self):
         return self.__settings
 
-    @classmethod
-    def setup(cls, *args, **kwargs):
-        def wrapper(func, *args, **kwargs):
-            ret = cls(*args, **kwargs)
-            func(ret)
+    def setup(self):
+        def wrapper(func):
+            func(self)
         return wrapper
 
     def __main__(self, args):
@@ -49,8 +48,8 @@ class lab(object):
         self.settings.runtime = Utilities.time_stamp()
         self.settings.save()
 
-    def main(self):
-        args = parser.parse_args()
+    def main(self, args = None):
+        args = parser.parse_known_args(args = args)
         if args.routine:
             for r in args.routine:
                 if isinstance(self.tasks[r], Tasks.Routine):

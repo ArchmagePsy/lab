@@ -64,8 +64,12 @@ class Settings(object):
 def time_stamp():
     return int(time.time())
 
-def select(query, root = shutil.os.getcwd(), key = lambda item: shutil.os.path.splitext(shutil.os.path.basename(item))[0]):
+by_name = lambda item: shutil.os.path.splitext(shutil.os.path.basename(item))[0]
+
+def select(query, root = shutil.os.getcwd(), key = by_name, runtime = None):
     results = []
     for dirpath, dirs, files in shutil.os.walk(root):
         results.extend(map(lambda item: shutil.os.path.join(dirpath, item), binary_search(sorted(files + dirs), query, key = key)))
+    if runtime != None: # test this somehow
+        return filter(lambda item: shutil.os.path.getmtime(item) > runtime, results)
     return results
