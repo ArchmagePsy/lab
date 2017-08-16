@@ -49,7 +49,7 @@ class lab(object):
         self.settings.save()
 
     def main(self, args = None):
-        args = parser.parse_known_args(args = args)
+        args = parser.parse_known_args(args = args)[0]
         if args.routine:
             for r in args.routine:
                 if isinstance(self.tasks[r], Tasks.Routine):

@@ -20,7 +20,7 @@ class LabTest(unittest.TestCase):
         @my_test_lab.setup()
         def setup(project):
             project["dummy_command" : Tasks.Command : ["echo hello world"]]
-
+        print my_test_lab.dummy_command(my_test_lab)
         shutil.rmtree(dir_path)
 
     def test_lab_settings(self):

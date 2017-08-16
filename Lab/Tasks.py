@@ -61,9 +61,9 @@ class Command(Task):
         self.command = command
         @self.define
         def process_command(project, args = None, **kwargs):
-            if not kwargs:
-                kwargs = self.parser.parse_known_args(args = args) # write test for new argparsing mechanism
-            else:
+            if not kwargs or args != None:
+                kwargs = vars(self.parser.parse_known_args(args = args)[0]) # write test for new argparsing mechanism
+            elif kwargs:
                 Utilities.mutate_dict(str, kwargs)
             return subprocess.call(self.command.format(**kwargs), shell = True)
 
