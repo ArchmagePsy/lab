@@ -55,7 +55,7 @@ class Command(Task):
     def setup_parser(self): # write test for this
         for _, name, _, _ in string.Formatter().parse(self.command):
             if name:
-                self.parser.add_argument("-" + name)
+                self.parser.add_argument("--" + name)
 
     def __init__(self, command):
         self.command = command

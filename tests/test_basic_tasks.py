@@ -24,6 +24,6 @@ class TaskTest(unittest.TestCase):
             with open(shutil.os.path.join(dir_path, str(i)), "w+") as fp:
                 files.append(fp.name)
         clean = Tasks.Clean()
-        clean(None, directory = dir_path)
+        clean(None, args = ["--directory", dir_path])
         self.assertTrue(all([not shutil.os.path.exists(f) for f in files]))
         shutil.os.rmdir(dir_path)
