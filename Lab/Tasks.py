@@ -35,7 +35,7 @@ class UndefinedTaskError(BaseException):
 
 class Command(Task):
     __command = str()
-    __arg_parser = argparse.ArgumentParser()
+    __arg_parser = None
 
     @property
     def command(self):
@@ -45,6 +45,7 @@ class Command(Task):
     def command(self, value):
         if type(value) == str:
             self.__command = value
+            self.setup_parser()
         else:
             raise TypeError("Command property must be a string")
 
@@ -53,16 +54,17 @@ class Command(Task):
         return self.__arg_parser
 
     def setup_parser(self): # write test for this
+        self.__arg_parser = argparse.ArgumentParser()
         for _, name, _, _ in string.Formatter().parse(self.command):
             if name:
-                self.parser.add_argument("--" + name)
+                self.parser.add_argument("--" + name, dest = name, required = True)
 
     def __init__(self, command):
         self.command = command
         @self.define
         def process_command(project, args = None, **kwargs):
             if not kwargs or args != None:
-                kwargs = vars(self.parser.parse_known_args(args = args)[0]) # write test for new argparsing mechanism
+                kwargs = vars(self.parser.parse_known_args(args = args)[0])
             elif kwargs:
                 Utilities.mutate_dict(str, kwargs)
             return subprocess.call(self.command.format(**kwargs), shell = True)
