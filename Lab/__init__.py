@@ -2,7 +2,7 @@ import shutil, argparse, sys
 from Lab import Tasks, Utilities
 
 parser = argparse.ArgumentParser()
-parser.add_argument("routine", help = "routine(s) to be run", nargs = "*")
+parser.add_argument("routine", help = "routine(s) to be run")
 
 class lab(object):
 
@@ -51,9 +51,8 @@ class lab(object):
     def main(self, args = None):
         args = parser.parse_known_args(args = args)[0]
         if args.routine:
-            for r in args.routine:
-                if isinstance(self.tasks[r], Tasks.Routine):
-                    print self(r)
+            if isinstance(self.tasks[args.routine], Tasks.Routine):
+                print self(args.routine)
         else:
             self("_main")
         self.__main__(args)
@@ -67,7 +66,3 @@ class lab(object):
             self.__settings = Utilities.Settings(directory = settings_dir)
             self.settings.runtime = 0
         Tasks.add_builtins(self)
-
-# implement project settings to store runtime etc.
-# pickle settings
-# figure out syntax for creating named labs

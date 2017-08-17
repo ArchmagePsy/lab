@@ -52,3 +52,10 @@ class UtilityTest(unittest.TestCase):
             fp.close()
         self.assertListEqual(Utilities.select("target", root = dir_path), [dir_path + "/target"])
         shutil.rmtree(dir_path)
+
+    def test_select_incremental(self):
+        dir_path = tempfile.mkdtemp()
+        fp = open(shutil.os.path.join(dir_path, "test"), "wb+")
+        self.assertEqual(Utilities.select("test", root = dir_path, runtime = 0), [fp.name])
+        self.assertEqual(Utilities.select("test", root = dir_path, runtime = shutil.os.path.getmtime(fp.name)), [])
+        shutil.rmtree(dir_path)

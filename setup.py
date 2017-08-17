@@ -1,7 +1,7 @@
 from setuptools import setup
 setup(
     name = "Lab",
-    version = "0.5.0",
+    version = "0.7.0",
     url = "http://github.com/ArchmagePsy/lab",
     author = "ArchmagePsy",
     author_email = "SeaOfCodeSi@gmail.com",

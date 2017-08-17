@@ -14,9 +14,6 @@ class TaskTest(unittest.TestCase):
         with self.assertRaises(Tasks.UndefinedTaskError) as SE:
             dummy_task(None)
 
-    def test_command_task(self):
-        pass # need to write a test that does nothing but don't know which command to do it with
-
     def test_clean_task(self):
         dir_path = tempfile.mkdtemp()
         files = []
