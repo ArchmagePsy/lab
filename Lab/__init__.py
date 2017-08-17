@@ -45,7 +45,7 @@ class lab(object):
         args = parser.parse_known_args(args = args)[0]
         if args.routine:
             if isinstance(self.tasks[args.routine], Tasks.Routine):
-                print self.tasks[args.routine](self)
+                self.tasks[args.routine](self)
         self.exit()
 
     def __init__(self, settings_dir = shutil.os.getcwd()):
