@@ -37,14 +37,7 @@ class lab(object):
             func(self)
         return wrapper
 
-    def __main__(self, args):
-        pass
-
-    def __exit__(self):
-        pass
-
     def exit(self):
-        self.__exit__()
         self.settings.runtime = Utilities.time_stamp()
         self.settings.save()
 
@@ -53,9 +46,6 @@ class lab(object):
         if args.routine:
             if isinstance(self.tasks[args.routine], Tasks.Routine):
                 print self.tasks[args.routine](self)
-        else:
-            self("_main")
-        self.__main__(args)
         self.exit()
 
     def __init__(self, settings_dir = shutil.os.getcwd()):
