@@ -52,7 +52,7 @@ class lab(object):
         args = parser.parse_known_args(args = args)[0]
         if args.routine:
             if isinstance(self.tasks[args.routine], Tasks.Routine):
-                print self(args.routine)
+                print self.tasks[args.routine](self)
         else:
             self("_main")
         self.__main__(args)
