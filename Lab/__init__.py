@@ -19,9 +19,14 @@ class lab(object):
                 task = task_type() if args == None else task_type(*args)
                 self.tasks[name] = task
                 return task
+            #elif self.tasks.has_key(name):
+            #    # task already defined error, ida know
+            elif not issubclass(task_type, Tasks.Task):
+                raise TypeError("Task_type must be a subclass or instance of Task")
 
-    def __call__(self, query, **kwargs):
-        kwargs.update(runtime = self.settings.runtime)
+    def __call__(self, query, incremental = True, **kwargs):
+        if incremental:
+            kwargs.update(runtime = self.settings.runtime)
         return Utilities.select(query, **kwargs)
 
     @property
@@ -44,7 +49,7 @@ class lab(object):
     def main(self, args = None):
         args = parser.parse_known_args(args = args)[0]
         if args.routine:
-            if isinstance(self.tasks[args.routine], Tasks.Routine):
+            if isinstance(self.tasks[args.routine], Tasks.Task):
                 self.tasks[args.routine](self)
         self.exit()
 

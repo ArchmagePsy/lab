@@ -1,5 +1,5 @@
-from Lab import Utilities
 import subprocess, argparse, string
+from Lab import Utilities
 
 class Task(object):
     __task_func = None
@@ -81,5 +81,4 @@ class Routine(Task):
             raise UndefinedTaskError("this task has not been defined")
 
 def add_builtins(project):
-    project["_main" : Routine]
     project["clean" : Clean]
