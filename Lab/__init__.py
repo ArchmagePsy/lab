@@ -7,7 +7,7 @@ and obnoxious names for tech. also lab is shorter so . . . yeah.
 """
 
 parser = argparse.ArgumentParser()
-parser.add_argument("routine", help = "routine(s) to be run")
+parser.add_argument("task", help = "task(s) to be run")
 
 class lab(object):
     """
@@ -110,9 +110,9 @@ class lab(object):
         :return: None
         """
         args = parser.parse_known_args(args = args)[0]
-        if args.routine:
-            if isinstance(self.tasks[args.routine], Tasks.Task):
-                self.tasks[args.routine](self)
+        if args.task:
+            if isinstance(self.tasks[args.task], Tasks.Task):
+                self.tasks[args.task](self)
         self.exit()
 
     def __init__(self, settings_dir = shutil.os.getcwd()):
