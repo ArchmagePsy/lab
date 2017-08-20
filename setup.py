@@ -6,7 +6,7 @@ setup(
     author = "ArchmagePsy",
     author_email = "SeaOfCodeSi@gmail.com",
     license = "GPL3",
-    packages = ["Lab"],
+    packages = ["Lab", "Lab.C"],
     test_suite = "tests.suite",
     zip_safe = False
 )

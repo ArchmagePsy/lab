@@ -1,5 +1,4 @@
-import shutil, argparse, sys
-from Lab import Tasks, Utilities
+import shutil, argparse, sys, Tasks, Utilities
 """
 This is the starting point for the Lab module where the lab class is defined.
 If you were wondering why its called a lab and not a project or build script

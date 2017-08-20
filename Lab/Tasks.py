@@ -1,5 +1,4 @@
-import subprocess, argparse, string
-from Lab import Utilities
+import subprocess, argparse, string, Utilities
 
 class Task(object):
     __task_func = None
