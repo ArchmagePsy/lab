@@ -1,5 +1,5 @@
 from Lab import Tasks, Utilities
-import unittest, tempfile, shutil
+import unittest, tempfile, shutil, shlex
 
 class TaskTest(unittest.TestCase):
     def test_task(self):
@@ -21,6 +21,6 @@ class TaskTest(unittest.TestCase):
             with open(shutil.os.path.join(dir_path, str(i)), "w+") as fp:
                 files.append(fp.name)
         clean = Tasks.Clean()
-        clean(None, args = ["--directory", dir_path])
+        clean(None, args = shlex.split("--directory " + dir_path))
         self.assertTrue(all([not shutil.os.path.exists(f) for f in files]))
         shutil.os.rmdir(dir_path)

@@ -2,6 +2,11 @@ import subprocess, argparse, string, Utilities
 
 class Task(object):
     __task_func = None
+    __arg_parser = argparse.ArgumentParser()
+
+    @property
+    def parser(self):
+        return self.__arg_parser
 
     @property
     def task_function(self):
@@ -17,14 +22,10 @@ class Task(object):
     def define(self, func):
         self.task_function = func
 
-    def setup(self, func):
-        if callable(func):
-            func(self)
-        else:
-            raise TypeError("Func parameter for setup must be a callable object")
-
-    def __call__(self, project, **kwargs):
-        if self.task_function != None:
+    def __call__(self, project, args = None, **kwargs):
+        if self.task_function:
+            if args:
+                kwargs.update(Utilities.filter_dict(lambda key, value: bool(value), vars(self.parser.parse_known_args(args = args)[0])))
             return self.task_function(project, **kwargs)
         else:
             raise UndefinedTaskError("this task has not been defined")
@@ -34,7 +35,6 @@ class UndefinedTaskError(BaseException):
 
 class Command(Task):
     __command = str()
-    __arg_parser = None
 
     @property
     def command(self):
@@ -48,12 +48,8 @@ class Command(Task):
         else:
             raise TypeError("Command property must be a string")
 
-    @property
-    def parser(self):
-        return self.__arg_parser
-
     def setup_parser(self): # write test for this
-        self.__arg_parser = argparse.ArgumentParser()
+        self._Task__arg_parser = argparse.ArgumentParser()
         for _, name, _, _ in string.Formatter().parse(self.command):
             if name:
                 self.parser.add_argument("--" + name, dest = name, required = True)
@@ -61,11 +57,8 @@ class Command(Task):
     def __init__(self, command):
         self.command = command
         @self.define
-        def process_command(project, args = None, **kwargs):
-            if not kwargs or args != None:
-                kwargs = vars(self.parser.parse_known_args(args = args)[0])
-            elif kwargs:
-                Utilities.mutate_dict(str, kwargs)
+        def process_command(project, **kwargs):
+            Utilities.mutate_dict(lambda key, value: str(value), kwargs)
             return subprocess.call(self.command.format(**kwargs), shell = True)
 
 class Clean(Command):
@@ -74,7 +67,7 @@ class Clean(Command):
 
 class Routine(Task):
     def __call__(self, project):
-        if self.task_function != None:
+        if not self.task_function:
             return self.task_function(project)
         else:
             raise UndefinedTaskError("this task has not been defined")

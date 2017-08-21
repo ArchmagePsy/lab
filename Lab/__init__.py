@@ -1,11 +1,10 @@
-import shutil, argparse, sys, Tasks, Utilities
+import shutil, argparse, sys, shlex, Tasks, Utilities
 """
 This is the starting point for the Lab module where the lab class is defined.
 If you were wondering why its called a lab and not a project or build script
 the you were wondering pointlessly 'cause its just a classic example of simple
 and obnoxious names for tech. also lab is shorter so . . . yeah.
 """
-
 parser = argparse.ArgumentParser()
 parser.add_argument("task", help = "task(s) to be run")
 
@@ -97,7 +96,7 @@ class lab(object):
         self.settings.runtime = Utilities.time_stamp()
         self.settings.save()
 
-    def main(self, args = None):
+    def main(self):
         """
         This is the main function and should always be called if the user
         wants to interact with the build using the commandline.
@@ -109,10 +108,14 @@ class lab(object):
         :args: List
         :return: None
         """
-        args = parser.parse_known_args(args = args)[0]
-        if args.task:
-            if isinstance(self.tasks[args.task], Tasks.Task):
-                self.tasks[args.task](self)
+        while True:
+            user_input = raw_input("> ").strip()
+            if user_input.upper() in ["EXIT", "QUIT"]:
+                break
+            args, leftovers = parser.parse_known_args(args = shlex.split(user_input))
+            if args.task:
+                if isinstance(self.tasks[args.task], Tasks.Task):
+                    self.tasks[args.task](self, args = leftovers)
         self.exit()
 
     def __init__(self, settings_dir = shutil.os.getcwd()):

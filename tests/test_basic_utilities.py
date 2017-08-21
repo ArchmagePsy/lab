@@ -28,8 +28,10 @@ class UtilityTest(unittest.TestCase):
         self.assertEqual(Utilities.sort_by(tmp_array, by = "foo" ), sorted(tmp_array, key = lambda item: item.foo))
 
     def test_mutate_dict(self):
-        self.assertEqual(Utilities.mutate_dict(lambda item: item + 1, {"foo": 1, "bar": 1}), {"foo": 2, "bar": 2})
+        self.assertEqual(Utilities.mutate_dict(lambda key, value: value + 1, {"foo": 1, "bar": 1}), {"foo": 2, "bar": 2})
 
+    def test_filter_dict(self):
+        self.assertEqual(Utilities.filter_dict(lambda key, value: bool(value), {"foo": 1, "bar": None}), {"foo": 1})
 
     def test_settings(self):
         settings = Utilities.Settings()

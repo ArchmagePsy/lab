@@ -83,7 +83,7 @@ def sort_by(array, by = None):
     :by: String
     :return: List
     """
-    return sorted(array, key = lambda item: getattr(item, by) if hasattr(item, by) else None) if by != None else sorted(array)
+    return sorted(array, key = lambda item: getattr(item, by) if hasattr(item, by) else None) if by else sorted(array)
 
 def mutate_dict(func, dictionary):# yeah I stole this, thx gens and Ned Batchelder from SO
     """
@@ -96,8 +96,16 @@ def mutate_dict(func, dictionary):# yeah I stole this, thx gens and Ned Batcheld
     :return: Dictionary
     """
     for key, value in dictionary.iteritems():
-        dictionary[key] = func(value)
+        dictionary[key] = func(key, value)
     return dictionary
+
+def filter_dict(func, dictionary):
+    new_dict = {}
+    for key, value in dictionary.iteritems():
+        if func(key, value):
+            new_dict[key] = value
+    return new_dict
+
 
 class Settings(object):
     """
