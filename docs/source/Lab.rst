@@ -1,19 +1,19 @@
 ***
 Lab
 ***
-this is the module found in ``__init__.py``
+This is the module found in ``__init__.py``
 and defines :ref:`lab-obj` which is the main part
 of every build script as it contains all the tasks
-required to automate aspects of a projects build/testing
+required to automate aspects of a projects building/testing.
 
 .. _lab-obj:
 
 The ``lab`` object
 ##################
-as described above this object will store all
+As described above this object will store all
 the tasks defined by the developer and provide them
 with a CLI when run to help them execute tasks in addition
-to this it will also save the previous build runtime
+to this it will also save the previous build's runtime
 in order to make use of :ref:`select-func` 's
 runtime parameter for use in incremental builds.
 
@@ -21,7 +21,7 @@ runtime parameter for use in incremental builds.
 
 ``tasks`` property
 ******************
-this provides a getter for the ``__tasks`` member.
+This provides a getter for the ``__tasks`` member.
 if the developer should want to add any tasks they
 should use the ``__getitem__`` function that overrides
 python's slice syntax to make defining tasks easier
@@ -31,7 +31,7 @@ python's slice syntax to make defining tasks easier
 
 ``settings`` property
 *********************
-as before this serves as a getter for the ``__settings`` member.
+As before this serves as a getter for the ``__settings`` member.
 the settings are where all of the lab's persistent data should be stored
 such as runtimes
 
