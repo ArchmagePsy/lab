@@ -8,7 +8,7 @@ class Dummy:
 
 class UtilityTest(unittest.TestCase):
     def test_search_until(self):
-        self.assertEqual(Utilities.search_until([1, 0], 1), [1])
+        self.assertEqual(Utilities.search_until([1, 0, 1], 1), [1])
         self.assertEqual(Utilities.search_until([1, 0], 2), [])
         self.assertEqual(Utilities.search_until([(0, 1), (1, 0), (2, 1)], 0, key = lambda item: item[0]), [(0, 1)])
         self.assertEqual(Utilities.search_until([(0, 1), (1, 0), (2, 1)], 1, key = lambda item: item[0]), [])
