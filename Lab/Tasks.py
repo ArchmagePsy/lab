@@ -52,7 +52,7 @@ class Command(Task):
         self._Task__arg_parser = argparse.ArgumentParser()
         for _, name, _, _ in string.Formatter().parse(self.command):
             if name:
-                self.parser.add_argument("--" + name, dest = name, required = True)
+                self.parser.add_argument("--" + name, dest = name)
 
     def __init__(self, command):
         self.command = command
