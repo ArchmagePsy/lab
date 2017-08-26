@@ -1,5 +1,5 @@
 from Lab import Tasks, Utilities
-import unittest, tempfile, shutil, shlex
+import unittest, tempfile, shutil, shlex, argparse
 
 class TaskTest(unittest.TestCase):
     def test_task(self):
@@ -24,3 +24,7 @@ class TaskTest(unittest.TestCase):
         clean(None, args = shlex.split("--directory " + dir_path))
         self.assertTrue(all([not shutil.os.path.exists(f) for f in files]))
         shutil.os.rmdir(dir_path)
+
+    def test_setup_parser(self):
+        test = Tasks.Command("echo 'testing {file}'")
+        self.assertEqual(test.parser._actions[1].option_strings, ["--file"])

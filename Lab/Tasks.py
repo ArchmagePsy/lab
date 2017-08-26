@@ -48,7 +48,7 @@ class Command(Task):
         else:
             raise TypeError("Command property must be a string")
 
-    def setup_parser(self): # write test for this
+    def setup_parser(self):
         self._Task__arg_parser = argparse.ArgumentParser()
         for _, name, _, _ in string.Formatter().parse(self.command):
             if name:
