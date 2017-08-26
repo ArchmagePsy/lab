@@ -213,7 +213,7 @@ to searching by filename where the suffix is omitted.
   since the runtime specified by 'my_lab']
   """
   import os
-  Utilitiies.select(".py", key = lambda item: os.path.splitext(os.path.basename(item))[1])
+  Utilities.select(".py", key = lambda item: os.path.splitext(os.path.basename(item))[1])
   # [all files with the extension '.py']
-  Utilitiies.select("foo", root = "src")
+  Utilities.select("foo", root = "src")
   # [all files starting from the 'src' directory withe the name 'foo']
