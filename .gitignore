@@ -1,5 +1,0 @@
-**/*.pyc
-Lab.egg-info
-build
-dist
-docs/build
