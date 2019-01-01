@@ -70,7 +70,7 @@ class Settings(object):
             return pickle.load(settings)
 
 def time_stamp():
-    return int(time.time())
+    return time.time()
 
 by_name = lambda item: shutil.os.path.splitext(shutil.os.path.basename(item))[0]
 
